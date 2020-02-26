@@ -1,6 +1,5 @@
 """ A very stripped down implementation of a lexical analyzer for a very basic grammar. """
 
-from enum import Enum
 import sys
 
 
@@ -52,6 +51,22 @@ CHAR_LOOKUP = {
 }
 
 
+class Lexeme:
+    def __init__(self):
+        self.label = str
+        self.token = TOKEN
+
+
+class Source:
+    def __init__(self, src):
+        self.src = str
+        self.lexemes = list     # of Lexeme
+        self.tokens = list      # of TOKEN
+
+    def src_print(self):
+        return
+
+
 def get_char(input_str):
     """ Reads a single character from the input and classifies its type. """
     if not input_str:
@@ -62,6 +77,22 @@ def get_char(input_str):
             return CHAR_LOOKUP[k]
     return CHARTYPE.OTHER
 # end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 def get_non_blank(input_str):
@@ -101,11 +132,11 @@ def lex(input_str):
             if char_type == CHARTYPE.LETTER:
                 input_str, lexeme = add_char(input_str, lexeme)
             elif char_type == CHARTYPE.OTHER:
-                lex_error("non_alpha")
+                lex_error("alpha")
             else:
                 new_token = TOKEN_LOOKUP.get(lexeme, None)
                 if not new_token:
-                    lex_error("no_token", lexeme)
+                    lex_error("no token", lexeme)
                 return input_str, lexeme, new_token
 
     if char_type == CHARTYPE.ID_START:
@@ -115,38 +146,46 @@ def lex(input_str):
             if char_type == CHARTYPE.LETTER:
                 input_str, lexeme = add_char(input_str, lexeme)
             elif char_type == CHARTYPE.OTHER:
-                lex_error("non_alpha")
+                lex_error("alpha")
             else:
                 return input_str, lexeme, TOKEN.IDENTIFIER
 
     if char_type == CHARTYPE.OTHER:
-        lex_error("unrecognized")
+        lex_error("unrecognized", char_type)
 # end
 
 
-def lex_error(err_type, token=""):
+def lex_error(err_type, offender=""):
     """ Return meaningful error messages. """
     msg = {
-        "non_alpha": "non-alphabet character found in identifier!",
-        "no_token": f"'{token}' token not found!",
-        "unrecognized": "unrecognized symbol found!"
-    }.get(err_type, "unknown error! You've really done it!")
+        "alpha": f"non-alphabet character '{offender}' found in identifier.",
+        "no token": f"'{offender}' token not found!",
+        "unrecognized": f"unrecognized symbol '{offender}' found.",
+        "no src": "no source file provided.",
+        "no open": "unable to open source file."
+    }.get(err_type, "unknown error.")
 
     raise Exception(f"Lexical analyzer error: {msg}")
 # end
 
 
-# NOT MY CODE
+# TODO: rewrite using source and lexeme classes
 if __name__ == "__main__":
     # checks if source file was passed and if it exists
     if len(sys.argv) != 2:
-        raise ValueError("Missing source file")
-    SOURCE = open(sys.argv[1], "rt")
+        lex_error("no src")
+
+    SOURCE = open(sys.argv[1])
     if not SOURCE:
-        raise IOError("Couldn't open source file")
+        lex_error("no open")
+
     INPUT_STR = SOURCE.read()
     SOURCE.close()
     OUTPUT = []
+
+    source = Source(INPUT_STR)
+    
+
 
     # main loop
     while True:
@@ -159,3 +198,33 @@ if __name__ == "__main__":
     for (LEXEME, TOKEN) in OUTPUT:
         print(LEXEME, TOKEN)
 # end
+
+
+
+def lexer(source):
+    next_char = get_char(source)
+    # if next_char
+    lexify = {
+        CHARTYPE.EOF: "",
+        CHARTYPE.LETTER: "",
+        CHARTYPE.ID_START: "",
+        CHARTYPE.BLANK: "",
+        CHARTYPE.OTHER: ""
+    }
+
+
+
+def lexeme_builder(source):
+    new_lexeme = Lexeme()
+
+
+
+
+
+
+
+
+def lexer(source):
+    proto_lexemes = source.split()
+    for lex in proto_lexemes:
+        
