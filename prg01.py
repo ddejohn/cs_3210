@@ -19,6 +19,10 @@ class Lexeme:
 # end
 
 
+class Tree:
+    pass
+
+
 @dataclass
 class Source:
     src: str
