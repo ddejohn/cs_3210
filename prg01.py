@@ -8,7 +8,14 @@ class Lexeme:
         self.label = label
         self.token = tkd.lookup(self.label)
         if not self.token:
-            self.token = regexer(self.label)
+            self.token = self.regexer(self.label)
+
+    @staticmethod
+    def regexer(lex):
+        for k, v in tkd.PATTERNS.items():
+            if k.match(lex):
+                return v
+        # else return lex_error(lex)
 # end
 
 
@@ -17,20 +24,11 @@ class Source:
     src: str
     lexemes: List[Lexeme]
     tokens: List[tkd.TOKEN]
-# end
 
-
-def regexer(lex):
-    for k, v in tkd.PATTERNS.items():
-        if k.match(lex):
-            return v
-    # else return lex_error(lex)
-# end
-
-
-def lexer(source:Source):
-    proto_lexemes = source.src.split()
-    for lex in proto_lexemes:
-        new_lex = Lexeme(lex)
-        source.lexemes.append(new_lex)
+    @staticmethod
+    def lexer(self):
+        proto_lexemes = self.src.split()
+        for lex in proto_lexemes:
+            new_lex = Lexeme(lex)
+            self.lexemes.append(new_lex)
 # end
