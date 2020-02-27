@@ -94,7 +94,7 @@ SYMBOLS = {
 PATTERNS = {
     re.compile("^[a-zA-Z]+[a-zA-Z0-9]*$"): TOKEN.IDENTIFIER,
     re.compile("^-?[1-9]+\\d*$|^0$"): TOKEN.INT_LITERAL,
-    re.compile("-?[1-9]+\\.\\d+|-?0?\\.\\d+"): TOKEN.FLOAT_LITERAL,
+    re.compile("^-?0?\\.\\d+$|^[1-9]+\\d*\\.\\d+$"): TOKEN.FLOAT_LITERAL,
     re.compile("'[a-zA-Z]'"): TOKEN.CHAR_LITERAL
 }
 
