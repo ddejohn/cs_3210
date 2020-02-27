@@ -1,4 +1,6 @@
 import re
+from dataclasses import dataclass
+from typing import List
 from prg01_data import token_data as tkd
 
 
@@ -10,14 +12,14 @@ class Lexeme:
             self.token = is_other(self.label)
 
 
+@dataclass
 class Source:
-    def __init__(self, src):
-        self.src = str
-        self.lexemes = list     # of Lexeme
-        self.tokens = list      # of TOKEN
+    src: str
+    lexemes: List[Lexeme]
+    tokens: List[tkd.TOKEN]
 
     def src_print(self):
-        return
+        pass
 
 
 def is_other(lex:str):
@@ -38,28 +40,23 @@ def is_other(lex:str):
 
 
 def is_id(lex:str):
-    if lex.isalnum():
+    if bool(re.match("^[a-zA-Z]+\\d*[a-zA-Z]+$", lex)):
         return tkd.TOKEN.IDENTIFIER
     return None
 
 
 def is_int(lex:str):
-    if lex.isdigit():
+    if bool(re.match("^[-]?[1-9]+0*$|^0$", lex)):
         return tkd.TOKEN.INT_LITERAL
-    elif len(lex.split(".")) == 2:
-        return is_flt(lex)
-    return None
 
 
 def is_flt(lex:str):
-    integral, fractional = lex.split(".")
-    if integral.isdigit() and fractional.isdigit():
+    if bool(re.match("-?[1-9]+\\.\\d+|-?0?\\.\\d+", lex)):
         return tkd.TOKEN.FLOAT_LITERAL
-    return None
 
 
 def is_chr(lex:str):
-    if bool(re.match("('[a-zA-Z]')", lex)):
+    if bool(re.match("'[a-zA-Z]'", lex)):
         return tkd.TOKEN.CHAR_LITERAL
     return None
 
