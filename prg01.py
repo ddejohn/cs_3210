@@ -1,4 +1,3 @@
-import re
 from dataclasses import dataclass
 from typing import List
 from prg01_data import token_data as tkd
@@ -18,21 +17,11 @@ class Source:
     src: str
     lexemes: List[Lexeme]
     tokens: List[tkd.TOKEN]
-
-    def src_print(self):
-        pass
 # end
 
 
 def regexer(lex):
-    regexes = {
-        re.compile("^[a-zA-Z]+\\d*[a-zA-Z]*$"): tkd.TOKEN.IDENTIFIER,
-        re.compile("^[-]?[1-9]+0*$|^0$"): tkd.TOKEN.INT_LITERAL,
-        re.compile("-?[1-9]+\\.\\d+|-?0?\\.\\d+"): tkd.TOKEN.FLOAT_LITERAL,
-        re.compile("'[a-zA-Z]'"): tkd.TOKEN.CHAR_LITERAL
-    }
-
-    for k, v in regexes.items():
+    for k, v in tkd.PATTERNS.items():
         if k.match(lex):
             return v
     # else return lex_error(lex)

@@ -1,6 +1,7 @@
 """Token data for C-lite language"""
 
 from enum import Enum
+import re
 
 
 TOKEN = Enum(
@@ -87,6 +88,14 @@ SYMBOLS = {
     "}": TOKEN.CLOSE_CURLY,
     "[": TOKEN.OPEN_BRACKET,
     "]": TOKEN.CLOSE_BRACKET,
+}
+
+
+PATTERNS = {
+    re.compile("^[a-zA-Z]+\\d*[a-zA-Z]*$"): TOKEN.IDENTIFIER,
+    re.compile("^[-]?[1-9]+0*$|^0$"): TOKEN.INT_LITERAL,
+    re.compile("-?[1-9]+\\.\\d+|-?0?\\.\\d+"): TOKEN.FLOAT_LITERAL,
+    re.compile("'[a-zA-Z]'"): TOKEN.CHAR_LITERAL
 }
 
 
