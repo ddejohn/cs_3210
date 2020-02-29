@@ -1,5 +1,3 @@
-from dataclasses import dataclass
-from typing import List
 from prg01_data import token_data as tkd
 
 
@@ -8,31 +6,29 @@ class Lexeme:
         self.label = label
         self.token = tkd.lookup(self.label)
         if not self.token:
-            self.token = self.regexer(self.label)
-
-    @staticmethod
-    def regexer(lex):
-        for k, v in tkd.PATTERNS.items():
-            if k.match(lex):
-                return v
-        # else return lex_error(lex)
+            self.token = tkd.regexer(self.label)
 # end
 
 
 class Tree:
-    pass
+    def __init__(self):
+        self.branch = None
+        self.leaf = Lexeme
+# end
 
 
-@dataclass
 class Source:
-    src: str
-    lexemes: List[Lexeme]
-    tokens: List[tkd.TOKEN]
+    def __init__(self, source:str):
+        self.source = source
+        self.lexemes = []
+        self.parse_tree = Tree
 
-    @staticmethod
     def lexer(self):
-        proto_lexemes = self.src.split()
+        proto_lexemes = self.source.split()
         for lex in proto_lexemes:
             new_lex = Lexeme(lex)
             self.lexemes.append(new_lex)
+
+    def parser(self):
+        pass
 # end

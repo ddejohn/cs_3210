@@ -102,3 +102,11 @@ PATTERNS = {
 def lookup(data:str):
     return TYPES.get(data, OPERATORS.get(data, SYMBOLS.get(data, None)))
 # end
+
+
+def regexer(lex):
+    for k, v in PATTERNS.items():
+        if k.match(lex):
+            return v
+    # else return lex_error(lex)
+# end
