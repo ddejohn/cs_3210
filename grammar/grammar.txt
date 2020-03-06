@@ -9,52 +9,51 @@ D' -> id [ LIT ] D*
 D* -> , D'
 D* -> ;
 
-S -> S' S
 S -> S'
+S -> S' S
 
 S' -> ASS
 S' -> IF
 S' -> WL
 S' -> { S }
 
-ASS -> id [ EXP ] = EXP ;
 ASS -> id = EXP ;
-ASS -> id = LIT ;
+ASS -> id [ EXP ] = EXP ;
 
 IF -> if ( EXP ) S
 IF -> if ( EXP ) S [ else S ]
 
 WL -> while ( EXP ) S
 
-EXP -> C'
-C' -> C
-C' -> C || C'
+EXP -> C
+EXP -> C || EXP
 
-C -> Q'
-Q' -> Q
-Q' -> Q && Q'
+C -> Q
+C -> Q && Q'
 
 Q -> R
-Q -> R EOP R
-EOP -> ==
-EOP -> !=
+Q -> R QOP R
+
+QOP -> ==
+QOP -> !=
 
 R -> ADD
 R -> ADD ROP ADD
+
 ROP -> <
 ROP -> <=
 ROP -> >
 ROP -> >=
 
 ADD -> TERM
-ADD -> TERM AOP'
-AOP' -> AOP ADD
+ADD -> TERM AOP ADD
+
 AOP -> +
 AOP -> -
 
 TERM -> FAC
-TERM -> FAC MOP'
-MOP' -> MOP TERM
+TERM -> FAC MOP TERM
+
 MOP -> *
 MOP -> /
 
@@ -72,3 +71,7 @@ LIT -> z
 LIT -> b
 LIT -> f
 LIT -> c
+
+
+
+int	main	(	)	{	}	id	[	]	,	;	=	if	else	while	||	&&	Q'	==	!=	<	<=	>	>=	+	-	*	/	bool	float	char	z	b	f	c	$	P	D	D'	D*	S	S'	ASS	IF	WL	EXP	C	Q	QOP	R	ROP	ADD	AOP	TERM	MOP	FAC	T	LIT
