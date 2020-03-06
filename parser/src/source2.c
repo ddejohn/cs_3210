@@ -8,6 +8,3 @@ int main() {
     i = i + 1;
   }
 }
-
-
-// int main ( ) { int id [ z ] , id , id ; id = z ; id = z ; while ( id < z ) { id [ id ] = id ; id = id + id [ id ] ; id = id + z ; } }

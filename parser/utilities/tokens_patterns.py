@@ -1,4 +1,5 @@
-"""Token data and regex pattern matchers for C-lite language"""
+"""Token data and regex pattern matchers for a C-lite language,
+written for CS-3210 Principles of Programming Languages by Devon DeJohn"""
 
 from enum import Enum
 import re
@@ -146,7 +147,7 @@ def regexer(lex):
 
 def reader(data:str):
     """Separate source file into proto-lexemes"""
-    symbol_match = re.split(r"\s+|([\(\)\[\]\{\};\-\+\*<>=])", data)
+    symbol_match = re.split(r"\s+|([\(\)\[\]\{\};,])", data)
     return list(filter(None, symbol_match))
 # end
 
@@ -157,7 +158,7 @@ def raise_error(err_code, offender=""):
     if "expected" in err:
         got = f" -- got '{offender}' instead"
     if err == "lexical error":
-        lexy = f"{err.upper()}\n\t> Unrecognized symbol"
+        lexy = f"{err.upper()}\n    > Unrecognized symbol"
         raise Exception(f"{lexy} '{offender}' found.")
-    raise Exception(f"PARSER ERROR {err_code}\n\t> {err}{got}")
+    raise Exception(f"PARSER ERROR {err_code}\n    > {err}{got}")
 # end

@@ -12,5 +12,3 @@ int main() {
     i = i - 1;
   }
 }
-
-// int main ( ) { char id , id [ z ] ; float id , id , id ; int id ; id = z ; id = z ; id = f ; id = f ; while ( id >= z ) { if ( id < z ) id = id + id - ( id * id ) ; id = id - z ; } }

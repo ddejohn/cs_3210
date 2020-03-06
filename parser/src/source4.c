@@ -11,6 +11,3 @@ int main() {
     result = result * a;
   }
 }
-
-
-// int main ( ) { float id ; int id ; char id ; id = z ; id = z ; id = f ; id = z ; while ( id < id ) { id = id * id ; } }

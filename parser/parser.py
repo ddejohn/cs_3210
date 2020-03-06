@@ -1,6 +1,7 @@
 """Lexical and syntax analyzer (LR parser) for a C-lite language,
 written for CS-3210 Principles of Programming Languages by Devon DeJohn"""
 
+import sys
 from utilities import tokens_patterns as util
 
 
@@ -20,7 +21,7 @@ class Tree:
         self.branch = None
         self.leaf = Lexeme
 
-    def sprout(self, new_branch: Tree):
+    def sprout(self, new_branch):
         """Add a subtree"""
         self.branch = new_branch
 # end
@@ -46,27 +47,18 @@ class Source:
 
 
 # main
-# if __name__ == "__main__":
+if __name__ == "__main__":
 
-#     # checks if source file was passed and if it exists
-#     if len(sys.argv) != 2:
-#         raise ValueError("Missing source file")
-#     source = open(sys.argv[1], "rt")
-#     if not source:
-#         raise IOError("Couldn't open source file")
-#     input = source.read()
-#     source.close()
-#     output = []
+    # checks if source file was passed and if it exists
+    if len(sys.argv) != 2:
+        util.raise_error(1)
 
-#     # main loop
-#     while True:
-#         input, lexeme, token = lex(input)
-#         if lexeme == None:
-#             break
-#         output.append((lexeme, token))
-
-#     # prints the output
-#     for (lexeme, token) in output:
-#         print(lexeme, token)
+    with open(sys.argv[1], "rt") as f:
+        source = f.read()
+    if not source:
+        util.raise_error(2)
+    source = Source(source)
+    source.lexer()
+    for lex in source.lexemes:
+        print(f"lexeme: {lex.label}\ttoken: {lex.token}")
 # end
-

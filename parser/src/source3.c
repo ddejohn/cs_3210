@@ -13,6 +13,3 @@ int main() {
   }
   c = 'y';
 }
-
-
-// int main ( ) { float id , id ; int id ; int id ; char id ; id = z ; id = z ; id = f ; id = z ; while ( id <= id ) { id = id * id ; id = id + z ; } id = c ; }
