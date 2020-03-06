@@ -71,7 +71,3 @@ LIT -> z
 LIT -> b
 LIT -> f
 LIT -> c
-
-
-
-int	main	(	)	{	}	id	[	]	,	;	=	if	else	while	||	&&	Q'	==	!=	<	<=	>	>=	+	-	*	/	bool	float	char	z	b	f	c	$	P	D	D'	D*	S	S'	ASS	IF	WL	EXP	C	Q	QOP	R	ROP	ADD	AOP	TERM	MOP	FAC	T	LIT
