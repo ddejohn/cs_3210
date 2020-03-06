@@ -1,0 +1,74 @@
+P -> int main ( ) { D S }
+
+D -> T D'
+D -> T D' D
+
+D' -> id D*
+D' -> id [ LIT ] D*
+
+D* -> , D'
+D* -> ;
+
+S -> S' S
+S -> S'
+
+S' -> ASS
+S' -> IF
+S' -> WL
+S' -> { S }
+
+ASS -> id [ EXP ] = EXP ;
+ASS -> id = EXP ;
+ASS -> id = LIT ;
+
+IF -> if ( EXP ) S
+IF -> if ( EXP ) S [ else S ]
+
+WL -> while ( EXP ) S
+
+EXP -> C'
+C' -> C
+C' -> C || C'
+
+C -> Q'
+Q' -> Q
+Q' -> Q && Q'
+
+Q -> R
+Q -> R EOP R
+EOP -> ==
+EOP -> !=
+
+R -> ADD
+R -> ADD ROP ADD
+ROP -> <
+ROP -> <=
+ROP -> >
+ROP -> >=
+
+ADD -> TERM
+ADD -> TERM AOP'
+AOP' -> AOP ADD
+AOP -> +
+AOP -> -
+
+TERM -> FAC
+TERM -> FAC MOP'
+MOP' -> MOP TERM
+MOP -> *
+MOP -> /
+
+FAC -> id
+FAC -> id [ EXP ]
+FAC -> LIT
+FAC -> ( EXP )
+
+T -> int
+T -> bool
+T -> float
+T -> char
+
+LIT -> z
+LIT -> b
+LIT -> f
+LIT -> c
