@@ -29,7 +29,7 @@ EXP -> C
 EXP -> C || EXP
 
 C -> Q
-C -> Q && Q'
+C -> Q && C
 
 Q -> R
 Q -> R QOP R
