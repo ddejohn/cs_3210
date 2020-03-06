@@ -1,7 +1,7 @@
 """Lexical and syntax analyzer (LR parser) for a C-lite language,
 written for CS-3210 Principles of Programming Languages by Devon DeJohn"""
 
-from prg01_data import token_data as tkd
+from data import token_data as tkd
 
 
 class Lexeme:
