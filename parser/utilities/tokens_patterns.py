@@ -1,4 +1,4 @@
-"""Token data for C-lite language"""
+"""Token data and regex pattern matchers for C-lite language"""
 
 from enum import Enum
 import re
