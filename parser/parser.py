@@ -43,3 +43,30 @@ class Source:
     def parser(self):
         """Basic LR parser (shift-reduce)"""
 # end
+
+
+# main
+# if __name__ == "__main__":
+
+#     # checks if source file was passed and if it exists
+#     if len(sys.argv) != 2:
+#         raise ValueError("Missing source file")
+#     source = open(sys.argv[1], "rt")
+#     if not source:
+#         raise IOError("Couldn't open source file")
+#     input = source.read()
+#     source.close()
+#     output = []
+
+#     # main loop
+#     while True:
+#         input, lexeme, token = lex(input)
+#         if lexeme == None:
+#             break
+#         output.append((lexeme, token))
+
+#     # prints the output
+#     for (lexeme, token) in output:
+#         print(lexeme, token)
+# end
+
