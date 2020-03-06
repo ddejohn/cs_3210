@@ -1,16 +1,16 @@
 """Lexical and syntax analyzer (LR parser) for a C-lite language,
 written for CS-3210 Principles of Programming Languages by Devon DeJohn"""
 
-from data import token_data as tkd
+from utilities import tokens_patterns as util
 
 
 class Lexeme:
     """Lexeme object which holds its label and corresponding token"""
     def __init__(self, label: str):
         self.label = label
-        self.token = tkd.lookup(self.label)
+        self.token = util.lookup(self.label)
         if not self.token:
-            self.token = tkd.regexer(self.label)
+            self.token = util.regexer(self.label)
 # end
 
 
@@ -35,7 +35,7 @@ class Source:
 
     def lexer(self):
         """Split source at whitespace, instatiate lexeme, add to list"""
-        proto_lexemes = self.source.split()
+        proto_lexemes = util.reader(self.source)
         for lex in proto_lexemes:
             new_lex = Lexeme(lex)
             self.lexemes.append(new_lex)

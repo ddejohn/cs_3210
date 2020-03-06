@@ -92,21 +92,30 @@ SYMBOLS = {
 
 
 PATTERNS = {
-    re.compile("^[a-zA-Z]+[a-zA-Z0-9]*$"): TOKEN.IDENTIFIER,
-    re.compile("^-?[1-9]+\\d*$|^0$"): TOKEN.INT_LITERAL,
-    re.compile("^-?0?\\.\\d+$|^[1-9]+\\d*\\.\\d+$"): TOKEN.FLOAT_LITERAL,
-    re.compile("'[a-zA-Z]'"): TOKEN.CHAR_LITERAL
+    re.compile(r"^[a-zA-Z]+[a-zA-Z0-9]*$"): TOKEN.IDENTIFIER,
+    re.compile(r"^-?[1-9]+\d*$|^0$"): TOKEN.INT_LITERAL,
+    re.compile(r"^-?0?\.\d+$|^[1-9]+\d*\.\d+$"): TOKEN.FLOAT_LITERAL,
+    re.compile(r"'[a-zA-Z]'"): TOKEN.CHAR_LITERAL
 }
 
 
 def lookup(data:str):
+    """Match against keywords, symbols, operators"""
     return TYPES.get(data, OPERATORS.get(data, SYMBOLS.get(data, None)))
 # end
 
 
 def regexer(lex):
+    """Match against literal patterns"""
     for k, v in PATTERNS.items():
         if k.match(lex):
             return v
     # else return lex_error(lex)
+# end
+
+
+def reader(data:str):
+    """Separate source file into proto-lexemes"""
+    symbol_match = re.split(r"\s+|([\(\)\[\]\{\};\-\+\*<>=])", data)
+    return list(filter(None, symbol_match))
 # end
