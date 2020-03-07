@@ -45,7 +45,7 @@ TOKEN = Enum(
         "CHAR_LITERAL",
         "DECIMAL",
         "QUOTATION"
-    ]
+    ], start=0
 )
 
 
@@ -74,6 +74,7 @@ OPERATORS = {
 
 
 SYMBOLS = {
+    "": TOKEN.EOF,
     "true": TOKEN.TRUE,
     "false": TOKEN.FALSE,
     ";": TOKEN.SEMICOLON,
@@ -126,7 +127,7 @@ PATTERNS = {
 }
 
 
-def lookup(data:str):
+def lookup(data: str):
     """Match against keywords, symbols, operators"""
     return TYPES.get(data, OPERATORS.get(data, SYMBOLS.get(data, None)))
 # end
@@ -145,10 +146,13 @@ def regexer(lex):
 # end
 
 
-def reader(data:str):
+def reader(source: str):
     """Separate source file into proto-lexemes"""
-    symbol_match = re.split(r"\s+|([\(\)\[\]\{\};,])", data)
-    return list(filter(None, symbol_match))
+    parsed_source = re.split(r"\s+|([\(\)\[\]\{\};,])", source)
+    eof = parsed_source[-1]
+    parsed_source = list(filter(None, parsed_source))
+    parsed_source.append(eof)
+    return parsed_source
 # end
 
 

@@ -60,5 +60,5 @@ if __name__ == "__main__":
     source = Source(source)
     source.lexer()
     for lex in source.lexemes:
-        print(f"lexeme: {lex.label}\ttoken: {lex.token}")
+        print(f"lexeme: {lex.label}\ttoken: {lex.token.value} {lex.token}")
 # end
