@@ -69,7 +69,7 @@ class Source:
         for tkn in self.lexemes:
             action = self.grammar.actions[(state, tkn.value)]
             if not action:
-                raise_error(19)
+                util.raise_error(19)
             elif action[0] == "s":
                 self.stack.append(tkn.label)
                 self.stack.append(int(action[1:]))
