@@ -1,3 +1,5 @@
+"""Generate action, goto, and productions for a given grammar"""
+
 import csv
 
 
