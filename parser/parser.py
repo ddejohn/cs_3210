@@ -3,7 +3,7 @@ written for CS-3210 Principles of Programming Languages by Devon DeJohn"""
 
 import sys
 from utilities import tokens_patterns as util
-from utilities import grammar_reader
+from utilities import grammar_reader as grmmr
 
 
 class Lexeme:
@@ -29,9 +29,11 @@ class Tree:
 
 
 class Grammar:
-    def __init__(self, path: str):
-        self.actions, self.goto = grammar_reader.get_slr(path)
-        self.productions = dict
+    """Loads the grammar files stored at parent directory 'dir'"""
+    def __init__(self, dir: str):
+        self.actions, self.goto = grmmr.get_slr(f"{dir}/grammar.csv")
+        self.productions = grmmr.get_prods(f"{dir}/grammar.txt")
+# end
 
 
 class Source:
@@ -39,6 +41,7 @@ class Source:
     def __init__(self, source: str):
         self.source = source
         self.lexemes = []
+        self.grammar = Grammar("grammar")
         self.parse_tree = Tree
 
     def lexer(self):
