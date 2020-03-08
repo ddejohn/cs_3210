@@ -1,5 +1,5 @@
 ACTION,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,GOTO,,,,,,,,,,,,,,,,,,,,,
-state,int,main,(,),{,},id,[,],",",;,=,if,else,while,||,&&,==,!=,<,<=,>,>=,+,-,*,/,bool,float,char,z,b,f,c,$,P,D,D',D*,S,S',ASS,IF,WL,EXP,C,Q,QOP,R,ROP,ADD,AOP,TERM,MOP,FAC,T,LIT
+state,int,main,(,),{,},id,[,],",",;,=,if,else,while,||,&&,==,!=,<,<=,>,>=,+,-,*,/,bool,float,char,123,true,1.23,'a',$,P,D,D',D*,S,S',ASS,IF,WL,EXP,C,Q,QOP,R,ROP,ADD,AOP,TERM,MOP,FAC,T,LIT
 0,s1,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 1,,s2,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 2,,,s3,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,

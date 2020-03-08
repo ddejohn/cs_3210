@@ -3,6 +3,7 @@ written for CS-3210 Principles of Programming Languages by Devon DeJohn"""
 
 import sys
 from utilities import tokens_patterns as util
+from utilities import grammar_reader
 
 
 class Lexeme:
@@ -27,6 +28,12 @@ class Tree:
 # end
 
 
+class Grammar:
+    def __init__(self, path: str):
+        self.actions, self.goto = grammar_reader.get_slr(path)
+        self.productions = dict
+
+
 class Source:
     """Source object which holds the source file, lexemes, and parse tree"""
     def __init__(self, source: str):
@@ -48,7 +55,6 @@ class Source:
 
 # main
 if __name__ == "__main__":
-
     # checks if source file was passed and if it exists
     if len(sys.argv) != 2:
         util.raise_error(1)
