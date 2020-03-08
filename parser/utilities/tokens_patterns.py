@@ -123,19 +123,19 @@ PATTERNS = {
 
 def lookup(lex: str):
     """Match against keywords, symbols, operators"""
-    print(f"LEX AT LOOKUP CALL: {lex}\nLEX TYPE: {type(lex)}")
-    return TOKEN_LOOKUP.get(lex, regexer(lex))
+    tkn = TOKEN_LOOKUP.get(lex)
+    if not tkn:
+        return regexer(lex)
+    return tkn
 # end
 
 
 def regexer(lex: str):
     """Match against literal patterns"""
-    print(f"LEX AT REGEXER CALL: {lex}\nLEX TYPE: {type(lex)}")
     tkn = None
     for k, v in PATTERNS.items():
         if k.match(lex):
             tkn = v
-            print(f"TKN ASSIGNED {tkn}")
             break
     if not tkn:
         raise_error(3, lex)
@@ -163,7 +163,3 @@ def raise_error(err_code, offender=""):
         raise Exception(f"{lexy} '{offender}' found.")
     raise Exception(f"PARSER ERROR {err_code}\n    > {err}{got}")
 # end
-
-
-print(TOKEN_LOOKUP.get(")"))
-print(lookup(")"))
