@@ -5,7 +5,7 @@ import csv
 
 def get_slr(path) -> list:
     """Read a grammar table as csv, return separate ACTION and GOTO tables"""
-    with open(path) as g:
+    with open(path, "rt") as g:
         reader = csv.reader(g)
         next(reader)
         grammar = list(reader)
@@ -35,3 +35,8 @@ def _col_split(mat, col) -> list:
         right_mat.append(row[col:])
     return left_mat, right_mat
 # end
+
+
+# actions, goto = get_slr("grammar/grammar.csv")
+# for row in actions:
+#     print(row,)

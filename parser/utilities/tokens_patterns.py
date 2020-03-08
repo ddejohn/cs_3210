@@ -49,32 +49,13 @@ TOKEN = Enum(
 )
 
 
-TYPES = {
+TOKEN_LOOKUP = {
     "main": TOKEN.MAIN,
     "int": TOKEN.INT_TYPE,
     "bool": TOKEN.BOOL_TYPE,
     "float": TOKEN.FLOAT_TYPE,
-    "char": TOKEN.CHAR_TYPE
-}
-
-
-OPERATORS = {
-    "if": TOKEN.IF,
-    "else": TOKEN.ELSE,
-    "while": TOKEN.WHILE,
-    "||": TOKEN.OR,
-    "&&": TOKEN.AND,
-    "==": TOKEN.EQUALITY,
-    "!=": TOKEN.INEQUALITY,
-    "<": TOKEN.LESS,
-    "<=": TOKEN.LESS_EQUAL,
-    ">": TOKEN.GREATER,
-    ">=": TOKEN.GREATER_EQUAL,
-}
-
-
-SYMBOLS = {
-    "": TOKEN.EOF,
+    "char": TOKEN.CHAR_TYPE,
+    "id": TOKEN.IDENTIFIER,
     "true": TOKEN.TRUE,
     "false": TOKEN.FALSE,
     ";": TOKEN.SEMICOLON,
@@ -90,6 +71,19 @@ SYMBOLS = {
     "}": TOKEN.CLOSE_CURLY,
     "[": TOKEN.OPEN_BRACKET,
     "]": TOKEN.CLOSE_BRACKET,
+    "if": TOKEN.IF,
+    "else": TOKEN.ELSE,
+    "while": TOKEN.WHILE,
+    "||": TOKEN.OR,
+    "&&": TOKEN.AND,
+    "==": TOKEN.EQUALITY,
+    "!=": TOKEN.INEQUALITY,
+    "<": TOKEN.LESS,
+    "<=": TOKEN.LESS_EQUAL,
+    ">": TOKEN.GREATER,
+    ">=": TOKEN.GREATER_EQUAL,
+    "": TOKEN.EOF,
+    "$": TOKEN.EOF
 }
 
 
@@ -127,18 +121,21 @@ PATTERNS = {
 }
 
 
-def lookup(data: str):
+def lookup(lex: str):
     """Match against keywords, symbols, operators"""
-    return TYPES.get(data, OPERATORS.get(data, SYMBOLS.get(data, None)))
+    print(f"LEX AT LOOKUP CALL: {lex}\nLEX TYPE: {type(lex)}")
+    return TOKEN_LOOKUP.get(lex, regexer(lex))
 # end
 
 
-def regexer(lex):
+def regexer(lex: str):
     """Match against literal patterns"""
+    print(f"LEX AT REGEXER CALL: {lex}\nLEX TYPE: {type(lex)}")
     tkn = None
     for k, v in PATTERNS.items():
         if k.match(lex):
             tkn = v
+            print(f"TKN ASSIGNED {tkn}")
             break
     if not tkn:
         raise_error(3, lex)
@@ -166,3 +163,7 @@ def raise_error(err_code, offender=""):
         raise Exception(f"{lexy} '{offender}' found.")
     raise Exception(f"PARSER ERROR {err_code}\n    > {err}{got}")
 # end
+
+
+print(TOKEN_LOOKUP.get(")"))
+print(lookup(")"))

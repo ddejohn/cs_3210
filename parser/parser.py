@@ -11,8 +11,6 @@ class Lexeme:
     def __init__(self, label: str):
         self.label = label
         self.token = util.lookup(self.label)
-        if not self.token:
-            self.token = util.regexer(self.label)
 # end
 
 
@@ -33,6 +31,12 @@ class Grammar:
     def __init__(self, dir: str):
         self.actions, self.goto = grmmr.get_slr(f"{dir}/grammar.csv")
         self.productions = grmmr.get_prods(f"{dir}/grammar.txt")
+        new_header = []
+        for symbol in self.actions[0]:
+            print(type(symbol))
+            symbol = util.lookup(symbol)
+            new_header.append(symbol)
+        self.actions[0] = new_header
 # end
 
 
@@ -68,6 +72,9 @@ if __name__ == "__main__":
         util.raise_error(2)
     source = Source(source)
     source.lexer()
-    for lex in source.lexemes:
-        print(f"lexeme: {lex.label}\ttoken: {lex.token.value} {lex.token}")
+    # for lex in source.lexemes:
+    #     print(f"lexeme: {lex.label}\ttoken: {lex.token.value} {lex.token}")
+    for g in source.grammar.actions:
+        print(g,)
+
 # end
