@@ -22,7 +22,7 @@ def get_prods(path) -> dict:
         productions = p.read()
     productions = filter(None, productions.split("\n"))
     productions = [row.split(" -> ") for row in productions]
-    return {(i, v[0]): v[1] for i,v in enumerate(productions, start=1)}
+    return {i: v for i,v in enumerate(productions)}
 # end
 
 

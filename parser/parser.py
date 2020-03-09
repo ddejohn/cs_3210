@@ -17,13 +17,25 @@ class Lexeme:
 
 class Tree:
     """Generic tree-like structure for generating the parse tree"""
+    tab = "    "
+    
     def __init__(self, leaf: Lexeme):
         self.leaf = leaf
-        self.branch = None
+        self.branches = []
 
     def sprout(self, new_branch):
         """Add a subtree"""
-        self.branch = new_branch
+        self.branches.append(new_branch)
+    
+    def prnt(self, tabs=1):
+        if self.branches:
+            print(f"{tabs*Tree.tab}{self.leaf}")
+            tabs += 1
+            for branch in self.branches:
+                if isinstance(branch, Tree):
+                    branch.prnt(tabs)
+                else:
+                    print(f"{tabs}{branch}")
 # end
 
 
@@ -37,11 +49,25 @@ class Grammar:
         new_header = []
         for symbol in self.actions[0]:
             symbol = util.lookup(symbol)
-            new_header.append(symbol.value)
-        self.actions[0] = new_header
-        self.actions = np.asarray(self.actions)
-        self.actions = self.actions[:, self.actions[0].argsort()]
-        self.actions = self.actions[1:, :]
+            new_header.append(symbol)
+
+        self.actions = {
+            st: {
+                v: acts[i] for i, v in enumerate(new_header) if acts[i]
+            } for st, acts in enumerate(self.actions[1:])
+        }
+
+        # print(self.goto[0],)
+
+        self.goto = {
+            st: {
+                v: int(gotos[i]) for i,v in enumerate(self.goto[0]) if gotos[i]
+            } for st, gotos in enumerate(self.goto[1:]) if any(gotos)
+        }
+
+        # print(self.goto,)
+        # self.actions = actions
+        # self.goto = goto
 # end
 
 
@@ -50,40 +76,62 @@ class Source:
     def __init__(self, source: str):
         self.source = source
         self.grammar = Grammar("grammar")
-        self.lexemes = []
-        self.parse_tree = Tree
-        self.stack = []
+        self.lexemes = self.lexer()
+        self.parse_tree = self.parser()
 
     def lexer(self):
         """Split source at whitespace, instatiate lexeme, add to list"""
+        lexemes = []
         proto_lexemes = util.reader(self.source)
         for lex in proto_lexemes:
             new_lex = Lexeme(lex)
-            self.lexemes.append(new_lex)
+            lexemes.append(new_lex)
+        return lexemes
 
     def parser(self):
         """Basic LR parser (shift-reduce)"""
         state = 0
+        counter = 0
         ungrafted_trees = []
-        self.stack.append(state)
-        for tkn in self.lexemes:
-            action = self.grammar.actions[(state, tkn.value)]
+        tkn = self.lexemes[counter].token
+        stack = [state, tkn.name]
+        while True:
+            action = self.grammar.actions[state][tkn]
+            # print(f"stack: {stack}")
+            # print(f"state: {state}\ntkn: {tkn.name}")
+            # print(f"action: {action}")
             if not action:
                 util.raise_error(19)
             elif action[0] == "s":
-                self.stack.append(tkn.label)
-                self.stack.append(int(action[1:]))
-                ungrafted_trees.append(Tree(tkn))
+                state = int(action[1:])
+                ungrafted_trees.append(Tree(tkn.name))
+                counter += 1
+                tkn = self.lexemes[counter].token
+                stack.append(state)
+                stack.append(tkn.name)
             elif action[0] == "r":
-                pass
+                prod = self.grammar.productions.get(int(action[1:]))
+                lhs, rhs = prod
+                pop_num = len(rhs.split())
+                # print(f"LHS: {lhs}\tRHS: {rhs}")
+                for _ in range(pop_num*2):
+                    stack.pop()
+                state = stack[-2]
+                stack.append(self.grammar.goto[state][lhs])
+                state = stack[-1]
+                stack.append(lhs)
+                new_tree = Tree(lhs)
+                for tree in ungrafted_trees[-pop_num:]:
+                    new_tree.sprout(tree)
+                ungrafted_trees = ungrafted_trees[:pop_num]
+                ungrafted_trees.append(new_tree)
             else:
-                # graft trees
-                pass
-
-
-        # for tkn in self.lexemes:
-
-
+                prod = self.grammar.productions[0]
+                lhs, rhs = prod
+                new_tree = Tree(lhs)
+                for tree in ungrafted_trees:
+                    new_tree.sprout(tree)
+                return new_tree
 # end
 
 
@@ -98,11 +146,5 @@ if __name__ == "__main__":
     if not source:
         util.raise_error(2)
     source = Source(source)
-    source.lexer()
-    # for lex in source.lexemes:
-    #     print(f"lexeme: {lex.label}\ttoken: {lex.token.value} {lex.token}")
-    for g in source.grammar.actions:
-        print(g,)
-    # stack = [0, ]
-
+    source.parse_tree.prnt()
 # end
