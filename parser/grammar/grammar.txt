@@ -8,20 +8,20 @@ T -> float
 T -> char
 
 # declaration
-D -> T D'
-D -> T D' D
-D' -> id D*
-D' -> id [ L ] D*
-D* -> , D'
+D -> T D^
+D -> T D^ D
+D^ -> id D*
+D^ -> id [ L ] D*
+D* -> , D^
 D* -> ;
 
 # statement
-S -> S'
-S -> S' S
-S' -> A
-S' -> I
-S' -> W
-S' -> { S }
+S -> S^
+S -> S^ S
+S^ -> A
+S^ -> I
+S^ -> W
+S^ -> { S }
 
 # assignment
 A -> id = X ;
