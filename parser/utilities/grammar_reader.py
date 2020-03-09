@@ -35,8 +35,3 @@ def _col_split(mat, col) -> list:
         right_mat.append(row[col:])
     return left_mat, right_mat
 # end
-
-
-# actions, goto = get_slr("grammar/grammar.csv")
-# for row in actions:
-#     print(row,)

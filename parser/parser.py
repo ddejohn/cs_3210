@@ -2,7 +2,6 @@
 written for CS-3210 Principles of Programming Languages by Devon DeJohn"""
 
 import sys
-import numpy as np
 from utilities import tokens_patterns as util
 from utilities import grammar_reader as grmmr
 
@@ -57,17 +56,11 @@ class Grammar:
             } for st, acts in enumerate(self.actions[1:])
         }
 
-        # print(self.goto[0],)
-
         self.goto = {
             st: {
                 v: int(gotos[i]) for i,v in enumerate(self.goto[0]) if gotos[i]
             } for st, gotos in enumerate(self.goto[1:]) if any(gotos)
         }
-
-        # print(self.goto,)
-        # self.actions = actions
-        # self.goto = goto
 # end
 
 
@@ -96,12 +89,10 @@ class Source:
         tkn = self.lexemes[counter].token
         stack = [state, tkn.name]
         while True:
-            action = self.grammar.actions[state][tkn]
-            # print(f"stack: {stack}")
-            # print(f"state: {state}\ntkn: {tkn.name}")
-            # print(f"action: {action}")
+            table_state = self.grammar.actions[state]
+            action = table_state.get(tkn)
             if not action:
-                util.raise_error(19)
+                util.read_error(table_state)
             elif action[0] == "s":
                 state = int(action[1:])
                 ungrafted_trees.append(Tree(tkn.name))
@@ -113,11 +104,11 @@ class Source:
                 prod = self.grammar.productions.get(int(action[1:]))
                 lhs, rhs = prod
                 pop_num = len(rhs.split())
-                # print(f"LHS: {lhs}\tRHS: {rhs}")
                 for _ in range(pop_num*2):
                     stack.pop()
                 state = stack[-2]
-                stack.append(self.grammar.goto[state][lhs])
+                goto = self.grammar.goto[state][lhs]
+                stack.append(goto)
                 state = stack[-1]
                 stack.append(lhs)
                 new_tree = Tree(lhs)

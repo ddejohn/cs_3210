@@ -87,30 +87,42 @@ TOKEN_LOOKUP = {
 }
 
 
-ERRORS = Enum(
-    "ERRORS", [
-        "source file missing",
-        "couldn't open source file",
-        "lexical error",
-        "digit expected",
-        "symbol missing",
-        "EOF expected",
-        "'}' expected",
-        "'{' expected",
-        "')' expected",
-        "'(' expected",
-        "main expected",
-        "int type expected",
-        "']' expected",
-        "int literal expected",
-        "'[' expected",
-        "identifier expected",
-        "';' expected",
-        "'=' expected",
-        "identifier, 'if', or 'while' expected",
-        "syntax error"
-    ]
-)
+ERRORS = {
+    1 : "source file missing",
+    2 : "couldn't open source file",
+    3 : "lexical error",
+    4 : "digit expected",
+    5 : "symbol missing",
+    6 : "EOF expected",
+    7 : "'}' expected",
+    8: "'{' expected",
+    9: "')' expected",
+    10: "'(' expected",
+    11: "main expected",
+    12: "int type expected",
+    13: "']' expected",
+    14: "int literal expected",
+    15: "'[' expected",
+    16: "identifier expected",
+    17: "';' expected",
+    18: "'=' expected",
+    19: "identifier, 'if', or 'while' expected",
+    99: "syntax error"
+}
+
+
+EXPECTED_ERRORS = {
+    TOKEN.EOF: 6,
+    TOKEN.INT_TYPE: 12,
+    TOKEN.MAIN: 11,
+    TOKEN.OPEN_PAR: 10,
+    TOKEN.CLOSE_PAR: 9,
+    TOKEN.OPEN_CURLY: 8,
+    TOKEN.CLOSE_CURLY: 7,
+    TOKEN.IDENTIFIER: 16,
+    TOKEN.SEMICOLON: 17,
+    TOKEN.ASSIGNMENT: 1
+}
 
 
 PATTERNS = {
@@ -154,12 +166,17 @@ def reader(source: str):
 
 
 def raise_error(err_code, offender=""):
-    err = ERRORS(err_code).name
-    got = ""
-    if "expected" in err:
-        got = f" -- got '{offender}' instead"
+    err = ERRORS.get(err_code)
     if err == "lexical error":
         lexy = f"{err.upper()}\n    > Unrecognized symbol"
         raise Exception(f"{lexy} '{offender}' found.")
-    raise Exception(f"PARSER ERROR {err_code}\n    > {err}{got}")
+    raise Exception(f"PARSER ERROR {err_code}\n    > {err}")
+# end
+
+
+def read_error(state: dict):
+    if len(state) == 1:
+        key = next(iter(state.keys()))
+    err_code = EXPECTED_ERRORS.get(key, 99)
+    raise_error(err_code)
 # end
