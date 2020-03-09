@@ -175,8 +175,9 @@ def raise_error(err_code, offender=""):
 
 
 def read_error(state: dict):
+    err_code = 99
     if len(state) == 1:
         key = next(iter(state.keys()))
-    err_code = EXPECTED_ERRORS.get(key, 99)
+        err_code = EXPECTED_ERRORS.get(key, 99)
     raise_error(err_code)
 # end

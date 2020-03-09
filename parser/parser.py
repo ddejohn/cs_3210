@@ -92,6 +92,7 @@ class Source:
             table_state = self.grammar.actions[state]
             action = table_state.get(tkn)
             if not action:
+                print(tkn.name, state)
                 util.read_error(table_state)
             elif action[0] == "s":
                 state = int(action[1:])
