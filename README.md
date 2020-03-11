@@ -1,5 +1,4 @@
-# CS 3210
-## Principles of Programming Languages
+# CS 3210 Principles of Programming Languages
 Devon DeJohn, Spring 2020
 
 ### Parser
