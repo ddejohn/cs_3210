@@ -39,77 +39,86 @@ The grammar in EBNF:
 Translated into SLR table-ready productions:
 
 ```
+# program
 P -> int main ( ) { D S }
 
-D -> T D'
-D -> T D' D
-
-D' -> id D*
-D' -> id [ LIT ] D*
-
-D* -> , D'
-D* -> ;
-
-S -> S'
-S -> S' S
-
-S' -> ASS
-S' -> IF
-S' -> WL
-S' -> { S }
-
-ASS -> id = EXP ;
-ASS -> id [ EXP ] = EXP ;
-
-IF -> if ( EXP ) S
-IF -> if ( EXP ) S [ else S ]
-
-WL -> while ( EXP ) S
-
-EXP -> C
-EXP -> C || EXP
-
-C -> Q
-C -> Q && C
-
-Q -> R
-Q -> R QOP R
-
-QOP -> ==
-QOP -> !=
-
-R -> ADD
-R -> ADD ROP ADD
-
-ROP -> <
-ROP -> <=
-ROP -> >
-ROP -> >=
-
-ADD -> TERM
-ADD -> TERM AOP ADD
-
-AOP -> +
-AOP -> -
-
-TERM -> FAC
-TERM -> FAC MOP TERM
-
-MOP -> *
-MOP -> /
-
-FAC -> id
-FAC -> id [ EXP ]
-FAC -> LIT
-FAC -> ( EXP )
-
+# type
 T -> int
 T -> bool
 T -> float
 T -> char
 
-LIT -> z
-LIT -> b
-LIT -> f
-LIT -> c
+# declaration
+D -> T D^
+D -> T D^ D
+D^ -> id D*
+D^ -> id [ L ] D*
+D* -> , D^
+D* -> ;
+
+# statement
+S -> S^
+S -> S^ S
+S^ -> A
+S^ -> I
+S^ -> W
+S^ -> { S }
+
+# assignment
+A -> id = X ;
+A -> id [ X ] = X ;
+
+# if
+I -> if ( X ) S
+I -> if ( X ) S [ else S ]
+
+# while
+W -> while ( X ) S
+
+# expression
+X -> C
+X -> C || X
+
+# compound
+C -> Q
+C -> Q && C
+
+# equality
+Q -> R
+Q -> R Q* R
+
+Q* -> ==
+Q* -> !=
+
+# relation
+R -> P
+R -> P R* P
+R* -> <
+R* -> <=
+R* -> >
+R* -> >=
+
+# plus (addition)
+P -> M
+P -> M P* P
+P* -> +
+P* -> -
+
+# term
+M -> F
+M -> F M* M
+M* -> *
+M* -> /
+
+# factor
+F -> id
+F -> id [ X ]
+F -> L
+F -> ( X )
+
+# literal
+L -> z
+L -> b
+L -> f
+L -> c
 ```
