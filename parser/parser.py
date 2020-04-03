@@ -11,6 +11,7 @@ class Lexeme:
     def __init__(self, label: str):
         self.label = label
         self.token = util.lookup(self.label)
+    # end
 # end
 
 
@@ -21,10 +22,12 @@ class Tree:
     def __init__(self, leaf: Lexeme):
         self.leaf = leaf
         self.branches = []
+    # end
 
     def sprout(self, new_branch):
         """Add a subtree"""
         self.branches.append(new_branch)
+    # end
     
     def prnt(self, tabs=1):
         if self.branches:
@@ -35,6 +38,10 @@ class Tree:
                     branch.prnt(tabs)
                 else:
                     print(f"{tabs}{branch}")
+                # end
+            # end
+        # end
+    # end
 # end
 
 
@@ -49,6 +56,7 @@ class Grammar:
         for symbol in self.actions[0]:
             symbol = util.lookup(symbol)
             new_header.append(symbol)
+        # end
 
         self.actions = {
             st: {
@@ -71,6 +79,7 @@ class Source:
         self.grammar = Grammar("grammar")
         self.lexemes = self.lexer()
         self.parse_tree = self.parser()
+    # end
 
     def lexer(self):
         """Split source at whitespace, instatiate lexeme, add to list"""
@@ -80,7 +89,9 @@ class Source:
             new_lex = Lexeme(lex)
             lexemes.append(new_lex)
         return lexemes
+    # end
 
+    # the ugliest code I've ever written
     def parser(self):
         """Basic LR parser (shift-reduce)"""
         state = 0
@@ -124,6 +135,9 @@ class Source:
                 for tree in ungrafted_trees:
                     new_tree.sprout(tree)
                 return new_tree
+            # end
+        # end
+    # end
 # end
 
 
